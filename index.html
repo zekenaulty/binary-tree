@@ -22,7 +22,7 @@
 
 let begin = function(){
   draw(
-    canvas.width / 2 + 16,
+    canvas.width / 2 + 18,
     canvas.height, Math.PI / 2,
     0.82,
     canvas.height / 10,
@@ -99,7 +99,7 @@ let draw = function(
   window.requestAnimationFrame(spawnBranches);
 }
 
-$(window).on("resize orientationchange", resize)
+$(window).on("resize orientationchange", resize);
 
 resize();
 
