@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>binary tree</title>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <canvas
+      id="canvas"
+      name="canvas"
+      style="position: absolute; background-color: lightskyblue; top: 0; left: 0;"></canvas>
+  </body>
+<script>
+'use strict';
+
+ function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    draw(
+      canvas.width/2 + 16, 
+      canvas.height, Math.PI / 2, 
+      0.82, 
+      canvas.height/10, 
+      4);
+  }
+
+var ctx = canvas.getContext("2d");
+var worble = Math.PI / 8;
+
+function draw(x, y, angle, scale, len, thickness) {
+  var rando = Math.random() * 10 * (Math.PI / 180);
+  var x1 = Math.floor(scale * len * Math.cos(angle));
+  var y1 = Math.floor(scale * len * Math.sin(angle));
+  
+
+
+  if (len < 34) {
+    //leaves
+    ctx.beginPath();
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = 'darkgreen';
+    ctx.fillStyle = 'green';
+    ctx.moveTo(x, y);
+    ctx.arc(x, y, len, 0, Math.PI / 2);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    if(len > 19){
+      //more leaves
+      draw(x, y, angle - worble + rando, scale, scale * len, .7 * thickness);
+  
+      draw(x, y, angle + worble + rando, scale, scale * len, .7 * thickness);
+    }
+  } else {
+    //branches
+    ctx.beginPath();
+    ctx.strokeStyle = 'brown';
+    ctx.fillStyle = 'brown';
+    ctx.lineWidth = 0;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + x1, y - y1);
+    ctx.closePath();
+    ctx.stroke();
+  }
+
+  if (len < 6) {
+    //end
+    return;
+  }
+
+  draw(x + x1, y - y1, angle - worble + rando, scale, scale * len, .7 * thickness);
+  
+  draw(x + x1, y - y1, angle + worble + rando, scale, scale * len, .7 * thickness);
+}
+
+$(window).on("resize orientationchange", resize)
+
+resize();
+
+</script>
+</html>
